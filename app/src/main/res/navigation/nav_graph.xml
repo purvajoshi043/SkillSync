@@ -11,10 +11,22 @@
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_login_to_onboarding"
-            app:destination="@id/onboardingFragment"
+            android:id="@+id/action_login_to_profile"
+            app:destination="@id/profileFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.skillsync.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profile_to_onboarding"
+            app:destination="@id/onboardingFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
     </fragment>

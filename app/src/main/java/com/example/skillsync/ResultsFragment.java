@@ -26,10 +26,23 @@ public class ResultsFragment extends Fragment {
     // Map of role → skill gaps
     private static final Map<String, List<String>> SKILL_GAPS = new HashMap<>();
     static {
+        // Tech
+        SKILL_GAPS.put("Android Developer", Arrays.asList("System Design", "Jetpack Compose", "CI/CD Pipelines"));
+        SKILL_GAPS.put("Web Developer", Arrays.asList("TypeScript", "React/Next.js", "System Design"));
+        SKILL_GAPS.put("Data Scientist", Arrays.asList("Deep Learning", "Cloud Deployment (AWS)", "SQL & Databases"));
+        SKILL_GAPS.put("Software Engineer", Arrays.asList("Distributed Systems", "Kubernetes", "Low-Level Optimization"));
+        
+        // Business & Design
         SKILL_GAPS.put("Business Analyst", Arrays.asList("Data Visualization", "Stakeholder Management", "SQL & Databases"));
+        SKILL_GAPS.put("Product Manager", Arrays.asList("Product Roadmap", "User Research", "Agile Leadership"));
         SKILL_GAPS.put("Graphic Designer", Arrays.asList("UI/UX Design", "Motion Graphics", "Typography"));
+        SKILL_GAPS.put("UX Researcher", Arrays.asList("Usability Testing", "Quantitative Analysis", "User Interviews"));
+        
+        // Operations & Others
         SKILL_GAPS.put("Marketing Manager", Arrays.asList("SEO/SEM", "Content Strategy", "Social Media Analytics"));
         SKILL_GAPS.put("HR Specialist", Arrays.asList("Talent Acquisition", "Conflict Resolution", "Labor Laws"));
+        SKILL_GAPS.put("Project Manager", Arrays.asList("Risk Management", "Budgeting", "Scrum Master"));
+        SKILL_GAPS.put("Sales Representative", Arrays.asList("CRM Mastery", "Lead Generation", "Closing Techniques"));
     }
 
     private AnalysisViewModel viewModel;
@@ -62,24 +75,36 @@ public class ResultsFragment extends Fragment {
             }
         });
 
-        // Populate ChipGroup based on selected role
-        viewModel.getSelectedRole().observe(getViewLifecycleOwner(), role -> {
+        // Populate ChipGroup based on selected roles
+        viewModel.getSelectedRoles().observe(getViewLifecycleOwner(), roles -> {
             chipGroupGaps.removeAllViews();
-            List<String> gaps = SKILL_GAPS.getOrDefault(role, SKILL_GAPS.get("Data Scientist"));
-            if (gaps != null) {
-                for (String gap : gaps) {
-                    Chip chip = new Chip(requireContext());
-                    chip.setText(gap);
-                    chip.setChipBackgroundColorResource(R.color.warning_amber_light);
-                    chip.setTextColor(getResources().getColor(R.color.text_primary_dark, null));
-                    chip.setClickable(true);
-                    chip.setFocusable(true);
-                    chip.setOnClickListener(v -> {
-                        SkillGapBottomSheet sheet = SkillGapBottomSheet.newInstance(gap);
-                        sheet.show(getChildFragmentManager(), "SkillGapBottomSheet");
-                    });
-                    chipGroupGaps.addView(chip);
+            java.util.Set<String> allGaps = new java.util.HashSet<>();
+            if (roles != null) {
+                for (String role : roles) {
+                    List<String> gaps = SKILL_GAPS.get(role);
+                    if (gaps != null) {
+                        allGaps.addAll(gaps);
+                    }
                 }
+            }
+
+            // Fallback if no roles selected (though onboarding prevents this) or no gaps found
+            if (allGaps.isEmpty()) {
+                allGaps.addAll(Arrays.asList("Professional Networking", "Communication", "Time Management"));
+            }
+
+            for (String gap : allGaps) {
+                Chip chip = new Chip(requireContext());
+                chip.setText(gap);
+                chip.setChipBackgroundColorResource(R.color.warning_amber_light);
+                chip.setTextColor(getResources().getColor(R.color.text_primary_dark, null));
+                chip.setClickable(true);
+                chip.setFocusable(true);
+                chip.setOnClickListener(v -> {
+                    SkillGapBottomSheet sheet = SkillGapBottomSheet.newInstance(gap);
+                    sheet.show(getChildFragmentManager(), "SkillGapBottomSheet");
+                });
+                chipGroupGaps.addView(chip);
             }
         });
 

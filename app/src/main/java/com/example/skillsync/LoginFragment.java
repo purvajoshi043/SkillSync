@@ -96,7 +96,7 @@ public class LoginFragment extends Fragment {
                 btnLogin.postDelayed(() -> {
                     if (getView() != null) {
                         Navigation.findNavController(getView())
-                                .navigate(R.id.action_login_to_onboarding);
+                                .navigate(R.id.action_login_to_profile);
                     }
                 }, 800);
             }
@@ -108,10 +108,10 @@ public class LoginFragment extends Fragment {
                     "Google Sign-In coming soon!", Toast.LENGTH_SHORT).show();
         });
 
-        // ── Create Account → go to Onboarding ────────────────────────────
+        // ── Create Account → go to Profile ────────────────────────────
         tvSignUp.setOnClickListener(v ->
                 Navigation.findNavController(v)
-                        .navigate(R.id.action_login_to_onboarding));
+                        .navigate(R.id.action_login_to_profile));
 
         // ── Forgot Password (mock) ─────────────────────────────────────────
         tvForgotPassword.setOnClickListener(v ->

@@ -18,10 +18,15 @@ import java.util.concurrent.Executors;
 public class AnalysisViewModel extends AndroidViewModel {
 
     // Shared state for the current analysis session
+    private final MutableLiveData<String> userName = new MutableLiveData<>("");
+    private final MutableLiveData<String> education = new MutableLiveData<>("");
+    private final MutableLiveData<String> age = new MutableLiveData<>("");
+    private final MutableLiveData<String> location = new MutableLiveData<>("");
+    private final MutableLiveData<String> bio = new MutableLiveData<>("");
     private final MutableLiveData<String> selectedFileName = new MutableLiveData<>();
-    private final MutableLiveData<String> selectedRole = new MutableLiveData<>("Data Scientist");
+    private final MutableLiveData<List<String>> selectedRoles = new MutableLiveData<>();
     private final MutableLiveData<String> selectedExperience = new MutableLiveData<>("Intermediate");
-    private final MutableLiveData<Integer> atsScore = new MutableLiveData<>(0);
+    private final MutableLiveData<Integer> atsScore = new MutableLiveData<>(null);
 
     // Room DB
     private final AnalysisDao analysisDao;
@@ -36,15 +41,25 @@ public class AnalysisViewModel extends AndroidViewModel {
     }
 
     // --- Getters ---
+    public LiveData<String> getUserName() { return userName; }
+    public LiveData<String> getEducation() { return education; }
+    public LiveData<String> getAge() { return age; }
+    public LiveData<String> getLocation() { return location; }
+    public LiveData<String> getBio() { return bio; }
     public LiveData<String> getSelectedFileName() { return selectedFileName; }
-    public LiveData<String> getSelectedRole() { return selectedRole; }
+    public LiveData<List<String>> getSelectedRoles() { return selectedRoles; }
     public LiveData<String> getSelectedExperience() { return selectedExperience; }
     public LiveData<Integer> getAtsScore() { return atsScore; }
     public LiveData<List<AnalysisHistory>> getAllHistory() { return allHistory; }
 
     // --- Setters ---
+    public void setUserName(String name) { userName.setValue(name); }
+    public void setEducation(String edu) { education.setValue(edu); }
+    public void setAge(String val) { age.setValue(val); }
+    public void setLocation(String val) { location.setValue(val); }
+    public void setBio(String val) { bio.setValue(val); }
     public void setSelectedFileName(String name) { selectedFileName.setValue(name); }
-    public void setSelectedRole(String role) { selectedRole.setValue(role); }
+    public void setSelectedRoles(List<String> roles) { selectedRoles.setValue(roles); }
     public void setSelectedExperience(String exp) { selectedExperience.setValue(exp); }
     public void setAtsScore(int score) { atsScore.setValue(score); }
 

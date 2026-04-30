@@ -4,56 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_gray">
+    android:background="#F0F2F5">
+
+    <!-- Gradient Header -->
+    <View
+        android:id="@+id/dashboardHeader"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/bg_login_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp"
         android:clipToPadding="false"
-        android:paddingBottom="80dp">
+        android:paddingBottom="100dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp">
 
-            <TextView
-                android:id="@+id/tvGreeting"
-                android:layout_width="wrap_content"
+            <!-- Greeting Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hello, Alex!"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary_dark" />
+                android:orientation="vertical"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="24dp">
 
-            <TextView
-                android:id="@+id/tvTrack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Data Scientist Track"
-                android:textSize="14sp"
-                android:textColor="@color/primary"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvGreeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hello, Alex!"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:letterSpacing="-0.02" />
 
+                <TextView
+                    android:id="@+id/tvTrack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Explore your career roadmap"
+                    android:textSize="16sp"
+                    android:textColor="#CBD5E1"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+            <!-- ATS Progress Card (Visible only after analysis) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardProgress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp">
+                android:visibility="gone"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="24dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="24dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Overall Progress"
+                        android:text="Resume Analysis Ready"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary_dark" />
@@ -62,71 +83,83 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="16dp"
-                        android:gravity="bottom">
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_vertical">
 
                         <TextView
+                            android:id="@+id/tvATSValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="85%"
+                            android:textSize="44sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            android:letterSpacing="-0.04" />
+
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Current ATS Score"
-                            android:textColor="@color/text_secondary" />
+                            android:orientation="vertical"
+                            android:layout_marginStart="20dp">
+                            
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ATS Matching Score"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_secondary"
+                                android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="72%"
-                            android:textStyle="bold"
-                            android:textColor="@color/success_green" />
+                            <ProgressBar
+                                android:id="@+id/pbATS"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp"
+                                android:layout_marginTop="8dp"
+                                android:max="100"
+                                android:progress="85"
+                                android:progressTint="@color/primary" />
+                        </LinearLayout>
                     </LinearLayout>
-
-                    <ProgressBar
-                        android:id="@+id/pbATS"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:layout_marginTop="8dp"
-                        android:max="100"
-                        android:progress="72"
-                        android:progressTint="@color/success_green" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Recent Reports -->
             <TextView
                 android:id="@+id/tvReportsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recent Reports"
+                android:text="Analysis History"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary_dark"
-                android:layout_marginTop="24dp" />
+                android:textColor="@color/text_primary_dark" />
 
             <LinearLayout
                 android:id="@+id/layoutRecentReports"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="24dp" />
 
-            <!-- New Recommended for You section -->
+            <!-- Recommended Jobs -->
             <TextView
                 android:id="@+id/tvRecommendedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recommended for You"
+                android:text="Top Picks For You"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary_dark"
-                android:layout_marginTop="24dp" />
+                android:textColor="@color/text_primary_dark" />
 
             <LinearLayout
                 android:id="@+id/layoutRecommendedJobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="16dp" />
-                
+                android:layout_marginTop="12dp" />
+
         </LinearLayout>
     </ScrollView>
 
@@ -134,13 +167,14 @@
         android:id="@+id/fabUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Analyze Resume"
-        app:icon="@android:drawable/ic_menu_add"
+        android:text="New Analysis"
+        app:icon="@android:drawable/ic_input_add"
         app:backgroundTint="@color/primary"
         android:textColor="@color/white"
         app:iconTint="@color/white"
+        app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+        android:layout_margin="24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

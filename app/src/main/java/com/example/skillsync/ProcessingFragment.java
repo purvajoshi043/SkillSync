@@ -55,15 +55,20 @@ public class ProcessingFragment extends Fragment {
                     currentMessageIndex++;
                     handler.postDelayed(this, 1500);
                 } else {
-                    // Generate mock ATS score (65–95)
-                    int mockScore = 65 + new Random().nextInt(31);
-                    viewModel.setAtsScore(mockScore);
+                    // Generate realistic ATS score using ResumeValidator
+                    String fileName = viewModel.getSelectedFileName().getValue();
+                    // Mock content based on filename for demonstration
+                    String mockContent = (fileName != null && fileName.toLowerCase().contains("resume")) 
+                            ? "Experience Education Skills Projects" : "Assignment Homework Task";
+                    
+                    int realScore = ResumeValidator.calculateScore(fileName, mockContent);
+                    viewModel.setAtsScore(realScore);
 
                     // Save to Room DB
-                    String role = viewModel.getSelectedRole().getValue();
-                    if (role == null) role = "Unknown";
+                    java.util.List<String> roles = viewModel.getSelectedRoles().getValue();
+                    String rolesText = (roles != null && !roles.isEmpty()) ? String.join(", ", roles) : "General";
                     String date = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
-                    viewModel.insertHistory(new AnalysisHistory(role, mockScore, date));
+                    viewModel.insertHistory(new AnalysisHistory(rolesText, realScore, date));
 
                     if (getView() != null) {
                         Navigation.findNavController(getView()).navigate(R.id.action_processing_to_results);

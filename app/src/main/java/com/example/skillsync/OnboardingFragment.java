@@ -14,6 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class OnboardingFragment extends Fragment {
 
     private AnalysisViewModel viewModel;
@@ -30,18 +36,24 @@ public class OnboardingFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(AnalysisViewModel.class);
 
-        RadioGroup rgRoles = view.findViewById(R.id.rgRoles);
+        ChipGroup chipGroupRoles = view.findViewById(R.id.chipGroupRoles);
         RadioGroup rgExperience = view.findViewById(R.id.rgExperience);
 
         view.findViewById(R.id.btnContinue).setOnClickListener(v -> {
-            // Get selected role
-            int roleId = rgRoles.getCheckedRadioButtonId();
-            if (roleId == -1) {
-                Toast.makeText(getContext(), "Please select a target role", Toast.LENGTH_SHORT).show();
+            // Get selected roles from ChipGroup
+            List<String> selectedRoles = new ArrayList<>();
+            for (int i = 0; i < chipGroupRoles.getChildCount(); i++) {
+                Chip chip = (Chip) chipGroupRoles.getChildAt(i);
+                if (chip.isChecked()) {
+                    selectedRoles.add(chip.getText().toString());
+                }
+            }
+
+            if (selectedRoles.isEmpty()) {
+                Toast.makeText(getContext(), "Please select at least one role", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String role = ((RadioButton) view.findViewById(roleId)).getText().toString();
-            viewModel.setSelectedRole(role);
+            viewModel.setSelectedRoles(selectedRoles);
 
             // Get selected experience
             int expId = rgExperience.getCheckedRadioButtonId();

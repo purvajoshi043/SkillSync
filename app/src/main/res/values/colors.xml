@@ -10,7 +10,7 @@
     <color name="background_drop_area">#EEF2FF</color>
 
     <color name="text_primary_dark">#0F172A</color>
-    <color name="text_secondary">#475569</color>
+    <color name="text_secondary">#334155</color>
     <color name="text_light">#FFFFFF</color>
 
     <color name="success_green">#10B981</color>

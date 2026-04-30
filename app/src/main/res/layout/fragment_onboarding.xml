@@ -4,138 +4,192 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="@android:color/white">
+    android:background="@color/background_gray">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to SkillSync"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary_dark"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_login_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_marginTop="120dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/btnContinue">
 
-    <TextView
-        android:id="@+id/tvSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Let's personalize your experience."
-        android:textSize="16sp"
-        android:textColor="@color/text_secondary"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tvWelcome"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tvRoleLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What role are you targeting?"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary_dark"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <RadioGroup
-        android:id="@+id/rgRoles"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tvRoleLabel"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <RadioButton
-            android:id="@+id/rbBusiness"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Business Analyst"
-            android:textSize="16sp"
-            android:padding="16dp" />
+            android:layout_margin="20dp"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="12dp"
+            app:strokeWidth="0dp">
 
-        <RadioButton
-            android:id="@+id/rbDesigner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Graphic Designer"
-            android:textSize="16sp"
-            android:padding="16dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="28dp">
 
-        <RadioButton
-            android:id="@+id/rbMarketing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Marketing Manager"
-            android:textSize="16sp"
-            android:padding="16dp" />
+                <TextView
+                    android:id="@+id/tvRoleLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Target Roles"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary_dark" />
 
-        <RadioButton
-            android:id="@+id/rbHR"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="HR Specialist"
-            android:textSize="16sp"
-            android:padding="16dp" />
-    </RadioGroup>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select one or more professions"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginBottom="20dp" />
 
-    <TextView
-        android:id="@+id/tvExpLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What is your experience level?"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary_dark"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/rgRoles"
-        app:layout_constraintStart_toStartOf="parent" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupRoles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:chipSpacingHorizontal="8dp"
+                    app:chipSpacingVertical="8dp">
+                    <!-- Chips will be here as before -->
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipAndroid"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Android Developer"
+                        app:chipBackgroundColor="@color/background_drop_area"
+                        android:textColor="@color/primary" />
+                    <!-- ... adding other chips back ... -->
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipWeb"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Web Developer"
+                        app:chipBackgroundColor="@color/background_drop_area"
+                        android:textColor="@color/primary" />
 
-    <RadioGroup
-        android:id="@+id/rgExperience"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvExpLabel"
-        app:layout_constraintStart_toStartOf="parent">
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipDataScience"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Data Scientist"
+                        app:chipBackgroundColor="@color/background_drop_area"
+                        android:textColor="@color/primary" />
 
-        <RadioButton
-            android:id="@+id/rbBeginner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Beginner" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSoftware"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Software Engineer"
+                        app:chipBackgroundColor="@color/background_drop_area"
+                        android:textColor="@color/primary" />
 
-        <RadioButton
-            android:id="@+id/rbIntermediate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Inter." />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipBusiness"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Business Analyst"
+                        app:chipBackgroundColor="@color/background_drop_area"
+                        android:textColor="@color/primary" />
 
-        <RadioButton
-            android:id="@+id/rbAdvanced"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Adv." />
-    </RadioGroup>
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipProduct"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Product Manager"
+                        app:chipBackgroundColor="@color/background_drop_area"
+                        android:textColor="@color/primary" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipDesigner"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Graphic Designer"
+                        app:chipBackgroundColor="@color/background_drop_area"
+                        android:textColor="@color/primary" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipHR"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HR Specialist"
+                        app:chipBackgroundColor="@color/background_drop_area"
+                        android:textColor="@color/primary" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <TextView
+                    android:id="@+id/tvExpLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Expertise Level"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary_dark"
+                    android:layout_marginTop="40dp" />
+
+                <RadioGroup
+                    android:id="@+id/rgExperience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbBeginner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Beginner"
+                        android:buttonTint="@color/primary" />
+
+                    <RadioButton
+                        android:id="@+id/rbIntermediate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mid"
+                        android:buttonTint="@color/primary" />
+
+                    <RadioButton
+                        android:id="@+id/rbAdvanced"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Senior"
+                        android:buttonTint="@color/primary" />
+                </RadioGroup>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnContinue"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Continue"
+        android:layout_height="64dp"
+        android:text="Get Started"
         android:textAllCaps="false"
         android:textSize="18sp"
-        app:cornerRadius="16dp"
+        android:textStyle="bold"
+        android:layout_margin="24dp"
+        app:cornerRadius="20dp"
         app:backgroundTint="@color/primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
