@@ -34,102 +34,44 @@
                 android:orientation="vertical"
                 android:padding="28dp">
 
-                <TextView
-                    android:id="@+id/tvRoleLabel"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilRoleSearch"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Target Roles"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary_dark" />
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Search Profession (e.g. Engineer, Manager)"
+                    app:startIconDrawable="@android:drawable/ic_menu_search"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusBottomEnd="16dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/atvRoleSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Select one or more professions"
+                    android:text="Selected Professions"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:textColor="@color/text_secondary"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="8dp" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupRoles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     app:chipSpacingHorizontal="8dp"
                     app:chipSpacingVertical="8dp">
-                    <!-- Chips will be here as before -->
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipAndroid"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Android Developer"
-                        app:chipBackgroundColor="@color/background_drop_area"
-                        android:textColor="@color/primary" />
-                    <!-- ... adding other chips back ... -->
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipWeb"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Web Developer"
-                        app:chipBackgroundColor="@color/background_drop_area"
-                        android:textColor="@color/primary" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDataScience"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Data Scientist"
-                        app:chipBackgroundColor="@color/background_drop_area"
-                        android:textColor="@color/primary" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipSoftware"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Software Engineer"
-                        app:chipBackgroundColor="@color/background_drop_area"
-                        android:textColor="@color/primary" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipBusiness"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Business Analyst"
-                        app:chipBackgroundColor="@color/background_drop_area"
-                        android:textColor="@color/primary" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipProduct"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Product Manager"
-                        app:chipBackgroundColor="@color/background_drop_area"
-                        android:textColor="@color/primary" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDesigner"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Graphic Designer"
-                        app:chipBackgroundColor="@color/background_drop_area"
-                        android:textColor="@color/primary" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipHR"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="HR Specialist"
-                        app:chipBackgroundColor="@color/background_drop_area"
-                        android:textColor="@color/primary" />
-
+                    <!-- Dynamic Chips will be here -->
                 </com.google.android.material.chip.ChipGroup>
 
                 <TextView

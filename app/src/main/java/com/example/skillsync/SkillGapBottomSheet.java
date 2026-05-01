@@ -79,20 +79,27 @@ public class SkillGapBottomSheet extends BottomSheetDialogFragment {
         LinearLayout layoutResources = view.findViewById(R.id.layoutResources);
         layoutResources.removeAllViews();
 
-        if (resources != null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            for (String[] resource : resources) {
-                View row = inflater.inflate(R.layout.item_resource_row, layoutResources, false);
-                ((TextView) row.findViewById(R.id.tvResourceTitle)).setText(resource[0]);
-                ((TextView) row.findViewById(R.id.tvResourceSource)).setText(resource[1]);
+        if (resources == null) {
+            // Default generic resources if skill not in map
+            resources = new String[][]{
+                    {"Search courses on Coursera", "Coursera", "https://www.coursera.org/search?query=" + skill},
+                    {"Learn on YouTube", "YouTube", "https://www.youtube.com/results?search_query=how+to+learn+" + skill},
+                    {"Search on Google", "Google", "https://www.google.com/search?q=learn+" + skill}
+            };
+        }
 
-                String url = resource[2];
-                row.setOnClickListener(v -> {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(intent);
-                });
-                layoutResources.addView(row);
-            }
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        for (String[] resource : resources) {
+            View row = inflater.inflate(R.layout.item_resource_row, layoutResources, false);
+            ((TextView) row.findViewById(R.id.tvResourceTitle)).setText(resource[0]);
+            ((TextView) row.findViewById(R.id.tvResourceSource)).setText(resource[1]);
+
+            String url = resource[2];
+            row.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            });
+            layoutResources.addView(row);
         }
     }
 }

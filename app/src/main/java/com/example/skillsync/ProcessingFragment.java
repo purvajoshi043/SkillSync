@@ -61,12 +61,22 @@ public class ProcessingFragment extends Fragment {
                     String mockContent = (fileName != null && fileName.toLowerCase().contains("resume")) 
                             ? "Experience Education Skills Projects" : "Assignment Homework Task";
                     
-                    int realScore = ResumeValidator.calculateScore(fileName, mockContent);
+                    if (!ResumeValidator.isLikelyResume(fileName, mockContent)) {
+                        // Show warning and stop
+                        view.findViewById(R.id.layoutProcessing).setVisibility(View.GONE);
+                        View warning = view.findViewById(R.id.layoutWarning);
+                        warning.setVisibility(View.VISIBLE);
+                        warning.findViewById(R.id.btnTryAgain).setOnClickListener(v -> 
+                            Navigation.findNavController(v).navigateUp());
+                        return;
+                    }
+
+                    java.util.List<String> selectedRoles = viewModel.getSelectedRoles().getValue();
+                    int realScore = ResumeValidator.calculateScore(fileName, mockContent, selectedRoles);
                     viewModel.setAtsScore(realScore);
 
                     // Save to Room DB
-                    java.util.List<String> roles = viewModel.getSelectedRoles().getValue();
-                    String rolesText = (roles != null && !roles.isEmpty()) ? String.join(", ", roles) : "General";
+                    String rolesText = (selectedRoles != null && !selectedRoles.isEmpty()) ? String.join(", ", selectedRoles) : "General";
                     String date = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
                     viewModel.insertHistory(new AnalysisHistory(rolesText, realScore, date));
 

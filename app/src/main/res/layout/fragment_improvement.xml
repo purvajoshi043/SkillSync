@@ -5,10 +5,25 @@
     android:layout_height="match_parent"
     android:background="@color/background_gray">
 
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_revert"
+        app:tint="@color/text_primary_dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:translationX="-8dp"
+        android:rotation="0" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
+        app:layout_constraintBottom_toTopOf="@id/btnFinish">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,58 +34,37 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Key Strengths"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary_dark" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupStrengths"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="24dp"
+                app:chipSpacingHorizontal="8dp">
+                <!-- Strengths chips will be added dynamically -->
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Suggested Skills to Learn"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary_dark" />
 
-            <LinearLayout
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupSuggestedSkills"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <TextView
-                    android:id="@+id/tagTensorFlow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TensorFlow"
-                    android:background="@drawable/bg_skill_tag"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_marginEnd="8dp"/>
-
-                <TextView
-                    android:id="@+id/tagPyTorch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PyTorch"
-                    android:background="@drawable/bg_skill_tag"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_marginEnd="8dp"/>
-
-                <TextView
-                    android:id="@+id/tagAWS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="AWS"
-                    android:background="@drawable/bg_skill_tag"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:clickable="true"
-                    android:focusable="true" />
-            </LinearLayout>
+                android:layout_marginTop="16dp"
+                app:chipSpacingHorizontal="8dp">
+                <!-- Skills chips will be added dynamically -->
+            </com.google.android.material.chip.ChipGroup>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,78 +76,12 @@
                 android:layout_marginTop="32dp" />
 
             <LinearLayout
+                android:id="@+id/layoutRoadmap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="16dp">
-
-                <!-- Step 1 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
-                    <TextView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/bg_circle_step"
-                        android:text="1"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Add 2 projects using PyTorch"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:textColor="@color/text_primary_dark" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Showcase practical deep learning experience."
-                            android:textColor="@color/text_secondary" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Step 2 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
-                    <TextView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/bg_circle_step"
-                        android:text="2"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Learn SQL Basics"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:textColor="@color/text_primary_dark" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Focus on JOINs and window functions."
-                            android:textColor="@color/text_secondary" />
-                    </LinearLayout>
-                </LinearLayout>
+                <!-- Roadmap steps will be added dynamically -->
             </LinearLayout>
 
             <TextView
@@ -198,16 +126,21 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/containerUpdatedVersion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground">
                         <TextView
+                            android:id="@+id/tvOldScore"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Score: 72%"
+                            android:text="Score: 0%"
                             android:textStyle="bold"
                             android:textSize="16sp" />
                         <ImageView
@@ -217,10 +150,11 @@
                             android:rotation="0"
                             app:tint="#475569" />
                         <TextView
+                            android:id="@+id/tvUpdatedScore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:text="Score: 82%"
+                            android:text="Score: 0%"
                             android:textColor="#4F46E5"
                             android:textStyle="bold"
                             android:textSize="16sp" />
@@ -234,4 +168,17 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnFinish"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:text="Finish &amp; Back to Dashboard"
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,36 +76,46 @@ public class ResultsFragment extends Fragment {
             }
         });
 
-        // Populate ChipGroup based on selected roles
-        viewModel.getSelectedRoles().observe(getViewLifecycleOwner(), roles -> {
-            chipGroupGaps.removeAllViews();
-            java.util.Set<String> allGaps = new java.util.HashSet<>();
-            if (roles != null) {
-                for (String role : roles) {
-                    List<String> gaps = SKILL_GAPS.get(role);
-                    if (gaps != null) {
-                        allGaps.addAll(gaps);
-                    }
+        // Populate Strengths and Gaps dynamically
+        viewModel.getSelectedFileName().observe(getViewLifecycleOwner(), fileName -> {
+            LinearLayout layoutStrengths = view.findViewById(R.id.layoutStrengths);
+            if (layoutStrengths != null) {
+                layoutStrengths.removeAllViews();
+                
+                // Simulation content
+                String mockContent = (fileName != null && fileName.toLowerCase().contains("resume")) 
+                        ? "Experience Education Skills Projects Python" : "Basic Content";
+                
+                java.util.List<String> selectedRoles = viewModel.getSelectedRoles().getValue();
+            
+                // Strengths
+                java.util.List<String> strengths = ResumeValidator.getStrengths(selectedRoles, mockContent);
+                for (String s : strengths) {
+                    TextView tv = new TextView(requireContext());
+                    tv.setText("✓  " + s);
+                    tv.setTextSize(15);
+                    tv.setTextColor(getResources().getColor(R.color.success_green, null));
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(0, 0, 0, 12);
+                    tv.setLayoutParams(lp);
+                    layoutStrengths.addView(tv);
                 }
-            }
 
-            // Fallback if no roles selected (though onboarding prevents this) or no gaps found
-            if (allGaps.isEmpty()) {
-                allGaps.addAll(Arrays.asList("Professional Networking", "Communication", "Time Management"));
-            }
-
-            for (String gap : allGaps) {
-                Chip chip = new Chip(requireContext());
-                chip.setText(gap);
-                chip.setChipBackgroundColorResource(R.color.warning_amber_light);
-                chip.setTextColor(getResources().getColor(R.color.text_primary_dark, null));
-                chip.setClickable(true);
-                chip.setFocusable(true);
-                chip.setOnClickListener(v -> {
-                    SkillGapBottomSheet sheet = SkillGapBottomSheet.newInstance(gap);
-                    sheet.show(getChildFragmentManager(), "SkillGapBottomSheet");
-                });
-                chipGroupGaps.addView(chip);
+                // Gaps (Limited to 2 chips as requested)
+                chipGroupGaps.removeAllViews();
+                java.util.List<String> gaps = ResumeValidator.getSkillGaps(selectedRoles, mockContent);
+                for (String gap : gaps) {
+                    Chip chip = new Chip(requireContext());
+                    chip.setText(gap);
+                    chip.setChipBackgroundColorResource(R.color.warning_amber_light);
+                    chip.setTextColor(getResources().getColor(R.color.text_primary_dark, null));
+                    chip.setOnClickListener(v -> {
+                        SkillGapBottomSheet sheet = SkillGapBottomSheet.newInstance(gap);
+                        sheet.show(getChildFragmentManager(), "SkillGapBottomSheet");
+                    });
+                    chipGroupGaps.addView(chip);
+                }
             }
         });
 

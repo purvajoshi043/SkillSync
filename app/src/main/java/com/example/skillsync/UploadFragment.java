@@ -59,8 +59,10 @@ public class UploadFragment extends Fragment {
 
         viewDropArea.setOnClickListener(v -> filePickerLauncher.launch("application/pdf"));
 
-        btnAnalyze.setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_upload_to_processing));
+        btnAnalyze.setOnClickListener(v -> {
+            viewModel.setAtsScore(null); // Clear previous score
+            Navigation.findNavController(v).navigate(R.id.action_upload_to_processing);
+        });
     }
 
     private void displaySelectedFile(Uri uri) {

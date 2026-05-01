@@ -61,7 +61,7 @@ public class AnalysisViewModel extends AndroidViewModel {
     public void setSelectedFileName(String name) { selectedFileName.setValue(name); }
     public void setSelectedRoles(List<String> roles) { selectedRoles.setValue(roles); }
     public void setSelectedExperience(String exp) { selectedExperience.setValue(exp); }
-    public void setAtsScore(int score) { atsScore.setValue(score); }
+    public void setAtsScore(Integer score) { atsScore.setValue(score); }
 
     // --- DB Operations ---
     public void insertHistory(AnalysisHistory history) {

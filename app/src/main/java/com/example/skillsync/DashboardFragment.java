@@ -83,19 +83,23 @@ public class DashboardFragment extends Fragment {
                         .inflate(R.layout.layout_empty_history, layoutRecentReports, false);
                 layoutRecentReports.addView(emptyView);
             } else {
+                // If there's no current session score, load the most recent one to the dashboard card
+                if (viewModel.getAtsScore().getValue() == null) {
+                    viewModel.setAtsScore(historyList.get(0).score);
+                }
+
                 for (com.example.skillsync.data.AnalysisHistory item : historyList) {
-                    View card = LayoutInflater.from(requireContext())
+                    View itemCard = LayoutInflater.from(requireContext())
                             .inflate(R.layout.item_report_card, layoutRecentReports, false);
-                    ((TextView) card.findViewById(R.id.tvReportRole)).setText(item.role);
-                    ((TextView) card.findViewById(R.id.tvReportDate)).setText(item.date);
-                    ((TextView) card.findViewById(R.id.tvReportScore)).setText(item.score + "%");
+                    ((TextView) itemCard.findViewById(R.id.tvReportRole)).setText(item.role);
+                    ((TextView) itemCard.findViewById(R.id.tvReportDate)).setText(item.date);
+                    ((TextView) itemCard.findViewById(R.id.tvReportScore)).setText(item.score + "%");
                     
-                    card.setOnClickListener(v -> {
-                        // Navigate to results for this specific history item
+                    itemCard.setOnClickListener(v -> {
                         viewModel.setAtsScore(item.score);
                         Navigation.findNavController(view).navigate(R.id.action_dashboard_to_results);
                     });
-                    layoutRecentReports.addView(card);
+                    layoutRecentReports.addView(itemCard);
                 }
             }
         });
@@ -111,84 +115,50 @@ public class DashboardFragment extends Fragment {
         java.util.List<String[]> allJobs = new java.util.ArrayList<>();
 
         for (String role : roles) {
+            String roleLower = role.toLowerCase();
             String[][] jobs;
-            switch (role) {
-                case "Android Developer":
-                    jobs = new String[][]{
-                            {"Google", "Software Engineer (Android)", "88%"},
-                            {"Spotify", "Mobile Developer", "82%"}
-                    };
-                    break;
-                case "Web Developer":
-                    jobs = new String[][]{
-                            {"Meta", "Frontend Engineer", "85%"},
-                            {"Netflix", "UI Engineer", "79%"}
-                    };
-                    break;
-                case "Data Scientist":
-                    jobs = new String[][]{
-                            {"Google", "Data Scientist", "85%"},
-                            {"Amazon", "ML Engineer", "78%"}
-                    };
-                    break;
-                case "Software Engineer":
-                    jobs = new String[][]{
-                            {"Microsoft", "Software Engineer II", "90%"},
-                            {"Twitter", "Backend Engineer", "81%"}
-                    };
-                    break;
-                case "Business Analyst":
-                    jobs = new String[][]{
-                            {"McKinsey", "Associate Analyst", "92%"},
-                            {"Deloitte", "Senior Business Consultant", "85%"}
-                    };
-                    break;
-                case "Product Manager":
-                    jobs = new String[][]{
-                            {"Apple", "Product Manager", "87%"},
-                            {"Uber", "Technical PM", "80%"}
-                    };
-                    break;
-                case "Graphic Designer":
-                    jobs = new String[][]{
-                            {"Adobe", "Creative Lead", "90%"},
-                            {"Canva", "Visual Designer", "84%"}
-                    };
-                    break;
-                case "UX Researcher":
-                    jobs = new String[][]{
-                            {"Airbnb", "UX Researcher", "86%"},
-                            {"IBM", "Experience Researcher", "77%"}
-                    };
-                    break;
-                case "Marketing Manager":
-                    jobs = new String[][]{
-                            {"Nike", "Brand Marketing Manager", "88%"},
-                            {"HubSpot", "Inbound Marketing Strategist", "82%"}
-                    };
-                    break;
-                case "HR Specialist":
-                    jobs = new String[][]{
-                            {"LinkedIn", "HR Business Partner", "91%"},
-                            {"Amazon", "Employee Experience Specialist", "83%"}
-                    };
-                    break;
-                case "Project Manager":
-                    jobs = new String[][]{
-                            {"Cisco", "Project Manager", "85%"},
-                            {"Oracle", "Technical Project Lead", "79%"}
-                    };
-                    break;
-                case "Sales Representative":
-                    jobs = new String[][]{
-                            {"Salesforce", "Account Executive", "89%"},
-                            {"Oracle", "Sales Manager", "82%"}
-                    };
-                    break;
-                default:
-                    jobs = new String[][]{
-                            {"Indeed", "General Consultant", "80%"}
-                    };
+            
+            if (roleLower.contains("android") || roleLower.contains("ios") || roleLower.contains("mobile")) {
+                jobs = new String[][]{
+                        {"Google", "Senior Mobile Engineer", "88%"},
+                        {"Spotify", "iOS/Android Developer", "82%"},
+                        {"Uber", "Staff Engineer (Mobile)", "85%"}
+                };
+            } else if (roleLower.contains("web") || roleLower.contains("frontend") || roleLower.contains("backend") || roleLower.contains("stack")) {
+                jobs = new String[][]{
+                        {"Meta", "Full Stack Engineer", "85%"},
+                        {"Netflix", "Senior Web Developer", "79%"},
+                        {"Amazon", "AWS Cloud Engineer", "83%"}
+                };
+            } else if (roleLower.contains("data") || roleLower.contains("analyst") || roleLower.contains("scientist")) {
+                jobs = new String[][]{
+                        {"Google", "Data Scientist L5", "85%"},
+                        {"Amazon", "Business Intelligence Engineer", "78%"},
+                        {"Microsoft", "Data Analyst", "81%"}
+                };
+            } else if (roleLower.contains("designer") || roleLower.contains("ux") || roleLower.contains("ui") || roleLower.contains("graphic")) {
+                jobs = new String[][]{
+                        {"Adobe", "Senior Product Designer", "90%"},
+                        {"Airbnb", "UX Researcher", "84%"},
+                        {"Canva", "Visual Designer", "86%"}
+                };
+            } else if (roleLower.contains("manager") || roleLower.contains("lead") || roleLower.contains("product")) {
+                jobs = new String[][]{
+                        {"Apple", "Product Manager", "87%"},
+                        {"Uber", "Technical Program Manager", "80%"},
+                        {"Salesforce", "Project Lead", "85%"}
+                };
+            } else if (roleLower.contains("cyber") || roleLower.contains("security") || roleLower.contains("devops")) {
+                jobs = new String[][]{
+                        {"Cloudflare", "Security Engineer", "88%"},
+                        {"Datadog", "Site Reliability Engineer", "82%"},
+                        {"Palo Alto", "Cybersecurity Lead", "90%"}
+                } ;
+            } else {
+                jobs = new String[][]{
+                        {"Indeed", "Professional Consultant", "80%"},
+                        {"LinkedIn", "Career Strategist", "75%"}
+                };
             }
             for (String[] j : jobs) {
                 allJobs.add(j);
