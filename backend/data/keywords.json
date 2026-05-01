@@ -1,0 +1,42 @@
+{
+  "Software Engineer": {
+    "core_skills": [
+      "java", "python", "c++", "c#", "javascript", "typescript", "golang", "rust",
+      "data structures", "algorithms", "object-oriented programming", "oop",
+      "design patterns", "system design", "microservices", "rest api", "graphql",
+      "sql", "mysql", "postgresql", "nosql", "mongodb", "redis",
+      "git", "github", "gitlab", "ci/cd", "jenkins", "docker", "kubernetes",
+      "aws", "gcp", "azure", "agile", "scrum", "linux", "bash"
+    ],
+    "action_verbs": [
+      "developed", "designed", "architected", "engineered", "implemented",
+      "optimized", "scaled", "deployed", "refactored", "integrated",
+      "led", "managed", "built", "created"
+    ]
+  },
+  "Data Analyst": {
+    "core_skills": [
+      "sql", "python", "r", "excel", "tableau", "power bi", "looker",
+      "data visualization", "data cleaning", "data mining", "data modeling",
+      "statistics", "a/b testing", "machine learning", "pandas", "numpy", "matplotlib",
+      "seaborn", "etl", "data warehousing", "bigquery", "snowflake", "redshift"
+    ],
+    "action_verbs": [
+      "analyzed", "visualized", "extracted", "cleaned", "modeled", "forecasted",
+      "identified", "discovered", "reported", "presented", "optimized", "tracked"
+    ]
+  },
+  "Web Developer": {
+    "core_skills": [
+      "html", "html5", "css", "css3", "javascript", "typescript",
+      "react", "angular", "vue", "next.js", "node.js", "express",
+      "tailwind css", "bootstrap", "sass", "less", "webpack", "vite",
+      "responsive design", "ui/ux", "accessibility", "seo",
+      "rest api", "graphql", "git", "npm", "yarn"
+    ],
+    "action_verbs": [
+      "developed", "designed", "built", "created", "styled", "optimized",
+      "implemented", "integrated", "responsive", "improved", "launched"
+    ]
+  }
+}

@@ -24,9 +24,11 @@ public class AnalysisViewModel extends AndroidViewModel {
     private final MutableLiveData<String> location = new MutableLiveData<>("");
     private final MutableLiveData<String> bio = new MutableLiveData<>("");
     private final MutableLiveData<String> selectedFileName = new MutableLiveData<>();
+    private final MutableLiveData<android.net.Uri> selectedFileUri = new MutableLiveData<>();
     private final MutableLiveData<List<String>> selectedRoles = new MutableLiveData<>();
     private final MutableLiveData<String> selectedExperience = new MutableLiveData<>("Intermediate");
     private final MutableLiveData<Integer> atsScore = new MutableLiveData<>(null);
+    private final MutableLiveData<com.example.skillsync.api.AnalysisResponse> apiResponse = new MutableLiveData<>(null);
 
     // Room DB
     private final AnalysisDao analysisDao;
@@ -47,9 +49,11 @@ public class AnalysisViewModel extends AndroidViewModel {
     public LiveData<String> getLocation() { return location; }
     public LiveData<String> getBio() { return bio; }
     public LiveData<String> getSelectedFileName() { return selectedFileName; }
+    public LiveData<android.net.Uri> getSelectedFileUri() { return selectedFileUri; }
     public LiveData<List<String>> getSelectedRoles() { return selectedRoles; }
     public LiveData<String> getSelectedExperience() { return selectedExperience; }
     public LiveData<Integer> getAtsScore() { return atsScore; }
+    public LiveData<com.example.skillsync.api.AnalysisResponse> getApiResponse() { return apiResponse; }
     public LiveData<List<AnalysisHistory>> getAllHistory() { return allHistory; }
 
     // --- Setters ---
@@ -59,9 +63,11 @@ public class AnalysisViewModel extends AndroidViewModel {
     public void setLocation(String val) { location.setValue(val); }
     public void setBio(String val) { bio.setValue(val); }
     public void setSelectedFileName(String name) { selectedFileName.setValue(name); }
+    public void setSelectedFileUri(android.net.Uri uri) { selectedFileUri.setValue(uri); }
     public void setSelectedRoles(List<String> roles) { selectedRoles.setValue(roles); }
     public void setSelectedExperience(String exp) { selectedExperience.setValue(exp); }
     public void setAtsScore(Integer score) { atsScore.setValue(score); }
+    public void setApiResponse(com.example.skillsync.api.AnalysisResponse response) { apiResponse.setValue(response); }
 
     // --- DB Operations ---
     public void insertHistory(AnalysisHistory history) {

@@ -56,52 +56,64 @@ public class ImprovementFragment extends Fragment {
                 int projectedScore = Math.min(latest.score + 14, 99);
                 tvUpdatedScore.setText("Score: " + projectedScore + "%");
 
-                String fileName = viewModel.getSelectedFileName().getValue();
-                String mockContent = (fileName != null && fileName.toLowerCase().contains("resume")) 
-                        ? "Experience Education Skills Projects Python" : "Basic Content";
+                com.example.skillsync.api.AnalysisResponse apiResponse = viewModel.getApiResponse().getValue();
+                if (apiResponse != null) {
+                    // Update Key Strengths
+                    chipGroupStrengths.removeAllViews();
+                    java.util.List<String> strengths = new java.util.ArrayList<>();
+                    if (apiResponse.getKeywordsMatched() != null) {
+                        for (int i = 0; i < Math.min(3, apiResponse.getKeywordsMatched().size()); i++) {
+                            strengths.add("Strong Skill: " + apiResponse.getKeywordsMatched().get(i));
+                        }
+                    }
+                    if (strengths.isEmpty()) strengths.add("Solid Foundation");
+                    
+                    for (String strength : strengths) {
+                        com.google.android.material.chip.Chip chip = new com.google.android.material.chip.Chip(requireContext());
+                        chip.setText(strength);
+                        chip.setChipBackgroundColorResource(R.color.success_green_light);
+                        chip.setTextColor(getResources().getColor(R.color.success_green, null));
+                        chipGroupStrengths.addView(chip);
+                    }
 
-                java.util.List<String> selectedRoles = viewModel.getSelectedRoles().getValue();
+                    // Update Suggested Skills
+                    chipGroupSuggestedSkills.removeAllViews();
+                    java.util.List<String> gaps = apiResponse.getSkillGap();
+                    if (gaps == null || gaps.isEmpty()) gaps = apiResponse.getKeywordsMissing();
+                    if (gaps != null) {
+                        for (int i = 0; i < Math.min(2, gaps.size()); i++) {
+                            String gap = gaps.get(i);
+                            com.google.android.material.chip.Chip chip = new com.google.android.material.chip.Chip(requireContext());
+                            chip.setText(gap);
+                            chip.setChipBackgroundColorResource(R.color.primary_light);
+                            chip.setTextColor(getResources().getColor(R.color.primary, null));
+                            chip.setOnClickListener(v -> {
+                                SkillGapBottomSheet sheet = SkillGapBottomSheet.newInstance(gap);
+                                sheet.show(getChildFragmentManager(), "SkillGapBottomSheet");
+                            });
+                            chipGroupSuggestedSkills.addView(chip);
+                        }
+                    }
 
-                // Update Key Strengths
-                chipGroupStrengths.removeAllViews();
-                java.util.List<String> strengths = ResumeValidator.getStrengths(selectedRoles, mockContent);
-                for (String strength : strengths) {
-                    com.google.android.material.chip.Chip chip = new com.google.android.material.chip.Chip(requireContext());
-                    chip.setText(strength);
-                    chip.setChipBackgroundColorResource(R.color.success_green_light);
-                    chip.setTextColor(getResources().getColor(R.color.success_green, null));
-                    chipGroupStrengths.addView(chip);
-                }
-
-                // Update Suggested Skills (Limited to 2 chips)
-                chipGroupSuggestedSkills.removeAllViews();
-                java.util.List<String> gaps = ResumeValidator.getSkillGaps(selectedRoles, mockContent);
-                for (String gap : gaps) {
-                    com.google.android.material.chip.Chip chip = new com.google.android.material.chip.Chip(requireContext());
-                    chip.setText(gap);
-                    chip.setChipBackgroundColorResource(R.color.primary_light);
-                    chip.setTextColor(getResources().getColor(R.color.primary, null));
-                    chip.setOnClickListener(v -> {
-                        SkillGapBottomSheet sheet = SkillGapBottomSheet.newInstance(gap);
-                        sheet.show(getChildFragmentManager(), "SkillGapBottomSheet");
-                    });
-                    chipGroupSuggestedSkills.addView(chip);
-                }
-
-                // Update Roadmap
-                layoutRoadmap.removeAllViews();
-                java.util.List<String> steps = ResumeValidator.getRoadmap(selectedRoles);
-                int stepNum = 1;
-                for (String stepData : steps) {
-                    String[] parts = stepData.split("\\|");
-                    String title = parts[0];
-                    String desc = parts.length > 1 ? parts[1] : "";
-
-                    View stepView = LayoutInflater.from(requireContext()).inflate(R.layout.item_roadmap_step, layoutRoadmap, false);
-                    ((TextView) stepView.findViewById(R.id.tvStepNumber)).setText(String.valueOf(stepNum++));
-                    ((TextView) stepView.findViewById(R.id.tvStepTitle)).setText(title);
-                    ((TextView) stepView.findViewById(R.id.tvStepDescription)).setText(desc);
-                    layoutRoadmap.addView(stepView);
+                    // Update Roadmap (Using API suggestions)
+                    layoutRoadmap.removeAllViews();
+                    java.util.List<String> suggestions = apiResponse.getSuggestions();
+                    int stepNum = 1;
+                    if (suggestions != null && !suggestions.isEmpty()) {
+                        for (String suggestion : suggestions) {
+                            View stepView = LayoutInflater.from(requireContext()).inflate(R.layout.item_roadmap_step, layoutRoadmap, false);
+                            ((TextView) stepView.findViewById(R.id.tvStepNumber)).setText(String.valueOf(stepNum++));
+                            ((TextView) stepView.findViewById(R.id.tvStepTitle)).setText("Improvement Area");
+                            ((TextView) stepView.findViewById(R.id.tvStepDescription)).setText(suggestion);
+                            layoutRoadmap.addView(stepView);
+                        }
+                    } else {
+                        View stepView = LayoutInflater.from(requireContext()).inflate(R.layout.item_roadmap_step, layoutRoadmap, false);
+                        ((TextView) stepView.findViewById(R.id.tvStepNumber)).setText("1");
+                        ((TextView) stepView.findViewById(R.id.tvStepTitle)).setText("Keep it up!");
+                        ((TextView) stepView.findViewById(R.id.tvStepDescription)).setText("Your resume is looking great.");
+                        layoutRoadmap.addView(stepView);
+                    }
                 }
             }
         });

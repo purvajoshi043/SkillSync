@@ -81,6 +81,7 @@ public class UploadFragment extends Fragment {
             }
         }
         viewModel.setSelectedFileName(fileName);
+        viewModel.setSelectedFileUri(uri);
         tvSelectedFileName.setText(fileName);
         tvSelectedFileSize.setText(fileSize);
         cardFileSelected.setVisibility(View.VISIBLE);

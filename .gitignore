@@ -13,3 +13,27 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Python/Backend ignores
+backend/venv/
+__pycache__/
+*.pyc
+
+# VSCode
+.vscode/
+
+# Additional Android/Gradle ignores
+app/build/
+*.apk
+*.aab
+*.keystore
+
+# Additional Python/FastAPI ignores
+venv/
+env/
+.env
+*.log
+*.sqlite3
+.pytest_cache/
+.mypy_cache/
+backend/test_data/

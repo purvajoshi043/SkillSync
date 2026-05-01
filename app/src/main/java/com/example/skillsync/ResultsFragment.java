@@ -81,40 +81,54 @@ public class ResultsFragment extends Fragment {
             LinearLayout layoutStrengths = view.findViewById(R.id.layoutStrengths);
             if (layoutStrengths != null) {
                 layoutStrengths.removeAllViews();
+                com.example.skillsync.api.AnalysisResponse apiResponse = viewModel.getApiResponse().getValue();
                 
-                // Simulation content
-                String mockContent = (fileName != null && fileName.toLowerCase().contains("resume")) 
-                        ? "Experience Education Skills Projects Python" : "Basic Content";
-                
-                java.util.List<String> selectedRoles = viewModel.getSelectedRoles().getValue();
-            
-                // Strengths
-                java.util.List<String> strengths = ResumeValidator.getStrengths(selectedRoles, mockContent);
-                for (String s : strengths) {
-                    TextView tv = new TextView(requireContext());
-                    tv.setText("✓  " + s);
-                    tv.setTextSize(15);
-                    tv.setTextColor(getResources().getColor(R.color.success_green, null));
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(0, 0, 0, 12);
-                    tv.setLayoutParams(lp);
-                    layoutStrengths.addView(tv);
-                }
+                if (apiResponse != null) {
+                    // Strengths (Mapped from matched keywords and sections found)
+                    java.util.List<String> strengths = new java.util.ArrayList<>();
+                    if (apiResponse.getSectionsFound() != null) {
+                        for (String section : apiResponse.getSectionsFound()) {
+                            strengths.add("Included Section: " + section);
+                        }
+                    }
+                    if (apiResponse.getKeywordsMatched() != null) {
+                        for (int i = 0; i < Math.min(3, apiResponse.getKeywordsMatched().size()); i++) {
+                            strengths.add("Strong Skill: " + apiResponse.getKeywordsMatched().get(i));
+                        }
+                    }
+                    if (strengths.isEmpty()) strengths.add("Professional Layout");
 
-                // Gaps (Limited to 2 chips as requested)
-                chipGroupGaps.removeAllViews();
-                java.util.List<String> gaps = ResumeValidator.getSkillGaps(selectedRoles, mockContent);
-                for (String gap : gaps) {
-                    Chip chip = new Chip(requireContext());
-                    chip.setText(gap);
-                    chip.setChipBackgroundColorResource(R.color.warning_amber_light);
-                    chip.setTextColor(getResources().getColor(R.color.text_primary_dark, null));
-                    chip.setOnClickListener(v -> {
-                        SkillGapBottomSheet sheet = SkillGapBottomSheet.newInstance(gap);
-                        sheet.show(getChildFragmentManager(), "SkillGapBottomSheet");
-                    });
-                    chipGroupGaps.addView(chip);
+                    for (String s : strengths) {
+                        TextView tv = new TextView(requireContext());
+                        tv.setText("✓  " + s);
+                        tv.setTextSize(15);
+                        tv.setTextColor(getResources().getColor(R.color.success_green, null));
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        lp.setMargins(0, 0, 0, 12);
+                        tv.setLayoutParams(lp);
+                        layoutStrengths.addView(tv);
+                    }
+
+                    // Gaps (Mapped from API skill_gap or missing_keywords)
+                    chipGroupGaps.removeAllViews();
+                    java.util.List<String> gaps = apiResponse.getSkillGap();
+                    if (gaps == null || gaps.isEmpty()) gaps = apiResponse.getKeywordsMissing();
+                    if (gaps != null) {
+                        // Limit to 2 or 3 as per UI
+                        for (int i = 0; i < Math.min(2, gaps.size()); i++) {
+                            String gap = gaps.get(i);
+                            Chip chip = new Chip(requireContext());
+                            chip.setText(gap);
+                            chip.setChipBackgroundColorResource(R.color.warning_amber_light);
+                            chip.setTextColor(getResources().getColor(R.color.text_primary_dark, null));
+                            chip.setOnClickListener(v -> {
+                                SkillGapBottomSheet sheet = SkillGapBottomSheet.newInstance(gap);
+                                sheet.show(getChildFragmentManager(), "SkillGapBottomSheet");
+                            });
+                            chipGroupGaps.addView(chip);
+                        }
+                    }
                 }
             }
         });
